@@ -74,29 +74,29 @@ public class MoneyTransferTest {
         assertEquals(10000 + amount, secondCardBalance);
     }
 
-//    @Test
-//    void shouldDepositFirstCardFromSecondWithKopecks() {
-//        var dashboardPage = new DashboardPage();
-//        dashboardPage.firstDepositButtonClick();
-//        var transactionPage = new TransactionPage();
-//        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
-//        var amount = 50.50;
-//        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0002");
-//        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-//        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
-//        assertEquals(10000 + amount, firstCardBalance);
-//        assertEquals(10000 - amount, secondCardBalance);
-//    }
+    @Test
+    void shouldDepositFirstCardFromSecondWithKopecks() {
+        var dashboardPage = new DashboardPage();
+        dashboardPage.firstDepositButtonClick();
+        var transactionPage = new TransactionPage();
+        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
+        var amount = 50.50;
+        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0002");
+        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
+        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        assertEquals(10000 + amount, firstCardBalance);
+        assertEquals(10000 - amount, secondCardBalance);
+    }
 
-//    @Test
-//    void shouldNotDepositFirstCardFromSecondOverLimit() {
-//        var dashboardPage = new DashboardPage();
-//        dashboardPage.firstDepositButtonClick();
-//        var transactionPage = new TransactionPage();
-//        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
-//        var amount = 12000;
-//        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0002");
-//    }
+    @Test
+    void shouldNotDepositFirstCardFromSecondOverLimit() {
+        var dashboardPage = new DashboardPage();
+        dashboardPage.firstDepositButtonClick();
+        var transactionPage = new TransactionPage();
+        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
+        var amount = 12000;
+        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0002");
+    }
 
     @Test
     void shouldNotAcceptNegative() {
@@ -122,15 +122,15 @@ public class MoneyTransferTest {
         transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0003");
     }
 
-//    @Test
-//    void shouldNotDepositFirstCardFromSelf() {
-//        var dashboardPage = new DashboardPage();
-//        dashboardPage.firstDepositButtonClick();
-//        var transactionPage = new TransactionPage();
-//        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
-//        var amount = 2550;
-//        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0001");
-//    }
+    @Test
+    void shouldNotDepositFirstCardFromSelf() {
+        var dashboardPage = new DashboardPage();
+        dashboardPage.firstDepositButtonClick();
+        var transactionPage = new TransactionPage();
+        transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
+        var amount = 2550;
+        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0001");
+    }
 
     @Test
     void shouldCancelDepositFirstCardFromSecond() {
