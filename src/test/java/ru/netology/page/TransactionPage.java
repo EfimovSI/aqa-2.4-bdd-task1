@@ -34,17 +34,11 @@ public class TransactionPage {
         return new TransactionPage();
     }
 
-    public DashboardPage cancelTransaction() {
+    public DashboardPage cancelTransaction(String amount, String from) {
+        amountField.val(amount);
+        fromField.val(from);
         cancelButton.click();
         return new DashboardPage();
-    }
-
-    public SelenideElement getAmountField() {
-        return amountField;
-    }
-
-    public SelenideElement getFromField() {
-        return fromField;
     }
 
     public SelenideElement getToField() {
