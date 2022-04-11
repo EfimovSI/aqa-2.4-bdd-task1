@@ -31,7 +31,7 @@ public class DashboardPage {
         return new TransactionPage();
     }
 
-    public double getCardBalance(String id) {
+    public int getCardBalance(String id) {
         // перебрать все карты и найти по атрибуту data-test-id
         val text = cards.findBy(attribute("data-test-id", id)).text();
         return extractBalance(text);
