@@ -3,6 +3,7 @@ package ru.netology.test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.data.CardData;
 import ru.netology.data.DataHelper;
 import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
@@ -33,16 +34,18 @@ public class MoneyTransferTest {
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
         var dashboardPage = new DashboardPage();
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         if (firstCardBalance < secondCardBalance) {
             dashboardPage.firstDepositButtonClick();
             var transactionPage = new TransactionPage();
-            transactionPage.validTransfer(String.valueOf((secondCardBalance - firstCardBalance) / 2), "5559 0000 0000 0002");
+            transactionPage.validTransfer(String.valueOf((secondCardBalance - firstCardBalance) / 2),
+                    CardData.getSecondCardInfo().getCardNumber());
         } else if (firstCardBalance > secondCardBalance) {
             dashboardPage.secondDepositButtonClick();
             var transactionPage = new TransactionPage();
-            transactionPage.validTransfer(String.valueOf((firstCardBalance - secondCardBalance) / 2), "5559 0000 0000 0001");
+            transactionPage.validTransfer(String.valueOf((firstCardBalance - secondCardBalance) / 2),
+                    CardData.getFirstCardInfo().getCardNumber());
         }
     }
 
@@ -53,9 +56,9 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = 1900;
-        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0002");
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        transactionPage.validTransfer(String.valueOf(amount), CardData.getSecondCardInfo().getCardNumber());
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         assertEquals(10000 + amount, firstCardBalance);
         assertEquals(10000 - amount, secondCardBalance);
     }
@@ -67,9 +70,9 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0002"));
         var amount = 2800;
-        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0001");
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        transactionPage.validTransfer(String.valueOf(amount), CardData.getFirstCardInfo().getCardNumber());
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         assertEquals(10000 - amount, firstCardBalance);
         assertEquals(10000 + amount, secondCardBalance);
     }
@@ -81,9 +84,9 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = 50.50;
-        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0002");
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        transactionPage.validTransfer(String.valueOf(amount), CardData.getSecondCardInfo().getCardNumber());
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         assertEquals(10000 + amount, firstCardBalance);
         assertEquals(10000 - amount, secondCardBalance);
     }
@@ -95,7 +98,7 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = 12000;
-        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0002");
+        transactionPage.invalidTransfer(String.valueOf(amount), CardData.getSecondCardInfo().getCardNumber());
     }
 
     @Test
@@ -105,9 +108,9 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = -1000;
-        transactionPage.validTransfer(String.valueOf(amount), "5559 0000 0000 0002");
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        transactionPage.validTransfer(String.valueOf(amount), CardData.getSecondCardInfo().getCardNumber());
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         assertEquals(10000 - amount, firstCardBalance);
         assertEquals(10000 + amount, secondCardBalance);
     }
@@ -129,7 +132,7 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = 2550;
-        transactionPage.invalidTransfer(String.valueOf(amount), "5559 0000 0000 0001");
+        transactionPage.invalidTransfer(String.valueOf(amount), CardData.getFirstCardInfo().getCardNumber());
     }
 
     @Test
@@ -139,9 +142,9 @@ public class MoneyTransferTest {
         var transactionPage = new TransactionPage();
         transactionPage.getToField().shouldHave(attribute("value", "**** **** **** 0001"));
         var amount = 7400;
-        transactionPage.cancelTransaction(String.valueOf(amount), "5559 0000 0000 0002");
-        var firstCardBalance = dashboardPage.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0");
-        var secondCardBalance = dashboardPage.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d");
+        transactionPage.cancelTransaction(String.valueOf(amount), CardData.getSecondCardInfo().getCardNumber());
+        var firstCardBalance = dashboardPage.getCardBalance(CardData.getFirstCardInfo().getCardDataTestId());
+        var secondCardBalance = dashboardPage.getCardBalance(CardData.getSecondCardInfo().getCardDataTestId());
         assertEquals(10000, firstCardBalance);
         assertEquals(10000, secondCardBalance);
     }
